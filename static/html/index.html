@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <link rel="icon" href="/static/imgs/favicon.ico">
+        <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/toast.css">
+        <script src="/static/js/toast.js"></script>
+        <script src="/static/js/index.js"></script>
+    </head>
+    <body onload="init()">
+        <div class="status">
+            <div id="indicator" class="led"></div>
+            <label id="status">Status: </label>
+        </div>
+        <div class="main">
+            <button class="controls" onclick="startRecord()">Start record</button>
+            <br>
+            <button class="controls" onclick="stopRecord()">Stop record</button>
+            <br>
+            <button class="controls" onclick="playRecorded()">Play!</button>
+            <br>
+            <button class="controls" onclick="sendRecord()">Send!</button>
+            <p></p>
+            <form action="/upload" method="post" enctype="multipart/form-data" onsubmit="return form_sub()">
+                <input type="file" name="file" required>
+                <input type="submit">
+            </form>
+        </div>
+    </body>
+</html>

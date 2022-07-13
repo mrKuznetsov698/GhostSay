@@ -1,0 +1,39 @@
+.main {
+    text-align: center;
+    margin: 0 auto 0 auto;
+    color: #fff;
+}
+.status{
+    position: absolute;
+    margin-top: 10px;
+    margin-left: 10px;
+    float: left;
+}
+.led {
+    width: 30px;
+    height: 30px;
+    border-radius: 16px;
+    background-color: #000000;
+    border: 1px solid #555555;
+}
+label {
+    color: white;
+}
+.controls{
+    width: 150px;
+    height: 50px;
+    background-color: rgb(0, 255, 255);
+    margin-top: 10px;
+    border-radius: 5px;
+    border: none;
+}
+.controls:hover{
+    background-color: #009dff;
+}
+.controls:active{
+    background-color: #bd00ff;
+}
+
+body{
+    background-image: url("/static/imgs/background.jpg");
+}
