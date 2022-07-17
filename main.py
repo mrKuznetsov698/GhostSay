@@ -14,8 +14,8 @@ PATH = os.getcwd()
 def fun_for_thread(name: str):
     global busy
     try:
-        # os.system(f'ffplay "{name}" -autoexit -nodisp > /dev/null')
-        os.system(f'./fmedia {name}')
+        os.system(f'ffplay "{name}" -autoexit -nodisp > /dev/null')
+        # os.system(f'./fmedia {name}')
         busy = False
     except Exception as ex:
         print(ex)
