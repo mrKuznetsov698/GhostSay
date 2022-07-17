@@ -8,12 +8,14 @@ import tornado.ioloop
 from tornado.log import enable_pretty_logging
 
 busy = False
+PATH = os.getcwd()
 
 
 def fun_for_thread(name: str):
     global busy
     try:
-        os.system(f'ffplay "{name}" -autoexit -nodisp')
+        # os.system(f'ffplay "{name}" -autoexit -nodisp > /dev/null')
+        os.system(f'./fmedia {name}')
         busy = False
     except Exception as ex:
         print(ex)
@@ -46,7 +48,7 @@ class UploadFileHandler(tornado.web.RequestHandler):
             fl.write(file['body'])
         self.redirect('/')
         busy = True
-        thr = threading.Thread(target=fun_for_thread, kwargs={'name': 'user_uploads\\' + file['filename']})
+        thr = threading.Thread(target=fun_for_thread, kwargs={'name': 'user_uploads/' + file['filename']})
         thr.start()
 
 
@@ -59,7 +61,7 @@ class PostDataHandler(tornado.web.RequestHandler):
         with open(f'user_uploads/a.weba', 'wb') as fl:
             fl.write(base64.decodebytes(self.request.body))
             fl.close()
-        thr = threading.Thread(target=fun_for_thread, kwargs={'name': 'user_uploads\\a.weba'})
+        thr = threading.Thread(target=fun_for_thread, kwargs={'name': 'user_uploads/a.weba'})
         thr.start()
 
 
@@ -67,11 +69,16 @@ class ApiHandler(tornado.web.RequestHandler):
     def get(self):
         self.write('Busy' if busy else 'Free')
 
+class KEK (tornado.web.RequestHandler):
+    def get(self):
+        self.write(PATH)
+
 
 def create_app():
     return tornado.web.Application([
         (r"/", MainHandler),
         (r"/getStatus", ApiHandler),
+        (r"/kek", KEK),
         (r"/upload", UploadFileHandler),
         (r"/data", PostDataHandler),
         (r"/static/(.*)", tornado.web.StaticFileHandler, {'path': 'static', 'default_filename': 'error.html'})
@@ -79,7 +86,10 @@ def create_app():
 
 
 if __name__ == '__main__':
-    enable_pretty_logging()
+    if os.getenv('LOGGING') == 'true':
+        enable_pretty_logging()
+    print(PATH)
+    print('Start up server')
     app = create_app()
-    app.listen(80)
+    app.listen(8888)
     tornado.ioloop.IOLoop.current().start()
